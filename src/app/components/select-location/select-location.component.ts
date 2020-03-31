@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NgxSpinnerService } from "ngx-spinner";  
 declare var google: any;
 @Component({
   selector: 'app-select-location',
@@ -8,7 +7,7 @@ declare var google: any;
   styleUrls: ['./select-location.component.scss']
 })
 export class SelectLocationComponent implements OnInit {
-  constructor(private httpService:HttpClient, private spinner: NgxSpinnerService) { }
+  constructor(private httpService:HttpClient) { }
   hidden = true
   location:any = [];
   states:any = [];
