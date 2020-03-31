@@ -1,23 +1,28 @@
 <div class="row mb-3">
     <div class="col-md-6">
-        <label>Select State:</label>
-        <select class="custom-select" (change)="changeState($event)">
-            <option class="text-center">-- Select State --</option>
-            <option *ngFor="let state of states">
-                {{state.State}}
-            </option>
-        </select>
+        <div class="form-group">
+            <label>Select State:</label>
+            <select class="custom-select" (change)="changeState($event)">
+                <option class="text-center">-- Select State --</option>
+                <option *ngFor="let state of states">
+                    {{state.State}}
+                </option>
+            </select>
+        </div>
     </div>
     <div class="col-md-6">
-        <label>Select City:</label>
-        <select class="custom-select" (change)="changeCity($event)">
-            <option class="text-center">-- Select City --</option>
-            <option *ngFor="let city of cities">
-                {{city}}
-            </option>
-        </select>
+        <div class="form-group">
+            <label>Select City:</label>
+            <select class="custom-select" (change)="changeCity($event)">
+                <option class="text-center">-- Select City --</option>
+                <option *ngFor="let city of cities">
+                    {{city}}
+                </option>
+            </select>
+        </div>
     </div>
 </div>
-<agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="6" [usePanning]="true">
+<div [hidden]="hidden" id="loader"></div>
+<agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="8" [usePanning]="true">
     <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
 </agm-map>

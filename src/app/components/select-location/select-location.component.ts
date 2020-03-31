@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { callbackify } from 'util';
+import { NgxSpinnerService } from "ngx-spinner";  
 declare var google: any;
 @Component({
   selector: 'app-select-location',
@@ -8,18 +8,14 @@ declare var google: any;
   styleUrls: ['./select-location.component.scss']
 })
 export class SelectLocationComponent implements OnInit {
-  @ViewChild('googleMapAttr', {static: true}) googleMapAttr: ElementRef;
-  @ViewChild('googleMapMarker', {static: true}) googleMapMarker: ElementRef;
-  constructor(private httpService:HttpClient) { }
+  constructor(private httpService:HttpClient, private spinner: NgxSpinnerService) { }
+  hidden = true
   location:any = [];
   states:any = [];
   cities = [];
-  coords = [];
   latitude:number = 23.0225;
   longitude:number = 72.5714;
   geocoder = new google.maps.Geocoder();
-  
-
   changeState(event){
     this.cities = [];
     let selectedState = event.target.value;
@@ -40,12 +36,22 @@ export class SelectLocationComponent implements OnInit {
     });
   }
   changeCity(event){
+    this.hidden = false;
     var address = event.target.value;
-    this.updateLatLng(address, (lat, lng)=>{
-      console.log(lat, lng);
+    this.updateLatLng(address, (lat, lng)=>{   
       this.latitude = lat;
       this.longitude = lng;
     })
+    this.detectDivChanges();
+  }
+  detectDivChanges() {
+    const div = document.querySelector('agm-map');
+    const config = { attributes: true, childList: true, subtree: true };
+    const observer = new MutationObserver((mutation) => {
+      this.hidden = true;
+      console.log('changed');
+    })
+    observer.observe(div, config);
   }
   ngOnInit(){
     this.httpService.get('https://indian-cities-api-nocbegfhqg.now.sh/cities').subscribe((data) => {
